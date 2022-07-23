@@ -113,8 +113,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |     |     |     |     |
      * |-----------------------|
      * |     |     |     |     |
-     * |-----------------|     |
-     * |           |     |     |
+     * |-----------------|  .  |
+     * |   Reset   | EEP |     |
      * `-----------------------´
      */
     [_RESET] = LAYOUT_numpad_6x4(
@@ -123,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX,
-        QK_BOOT,          EE_CLR,  XXXXXXX
+        QK_BOOT,          EE_CLR,  KC_PDOT
     )
 };
 
