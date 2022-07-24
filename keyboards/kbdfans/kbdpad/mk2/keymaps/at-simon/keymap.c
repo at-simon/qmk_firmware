@@ -78,13 +78,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* _MEDIA
      * ,-----------------------.
-     * | ESC | TO0 | TO1 |     |
+     * | ESC | TO0 | TO1 | MO3 |
      * `-----------------------´
      * ,-----------------------.
      * |     | V 0 | V - | V + |
      * |-----------------------|
-     * |     |     |     |     |
-     * |-----------------|     |
+     * |     |     | F 9 |     |
+     * |-----------------| Ply |
      * |     |     |     |     |
      * |-----------------------|
      * |     |     |     |     |
@@ -95,8 +95,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MEDIA] = LAYOUT_numpad_6x4(
         KC_ESC,  TO(0),   TO(1),   MO(3),
         XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_F9,
+        XXXXXXX, XXXXXXX, XXXXXXX, KC_MPLY,
         XXXXXXX, XXXXXXX, XXXXXXX,
         KC_P2,            XXXXXXX, XXXXXXX
     ),
