@@ -136,14 +136,14 @@ const uint8_t LED_LIST_MILKSHAKE_PURPLE[] = {
     LED_RCTL
 };
 
-const uint8_t LED_LIST_KEYPAD[] = {
+const uint8_t LED_LIST_NUMPAD[] = {
     LED_7, LED_8, LED_9,
     LED_U, LED_I, LED_O,
     LED_J, LED_K, LED_L,
     LED_M
 };
 
-const uint8_t LED_LIST_KEYPAD_EXTRA[] = {
+const uint8_t LED_LIST_NUMPAD_EXTRA[] = {
     LED_MINS, LED_EQL, LED_BSPC,
     LED_LBRC, LED_RBRC,
     LED_F, LED_ENT,

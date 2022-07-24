@@ -32,7 +32,8 @@ enum custom_user_keycodes {
 enum custom_user_layers {
     _BASE,
     _SETTINGS,
-    _KEYPAD,
+    _NUMPAD,
+    _RESET,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -62,25 +63,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------------------------------------------------------.
      * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     | PScr |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     | V I |     |     |     |     |     |     |     |     | TO2 |     |          | Ins  |
+     * |        |     |     |     |     |     |     |     |     | TO3 |     | TO2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     | V D |     |     |     |     |     |     |     |     |     |              | Play |
+     * | Caps     |     |     |     |     |     |     |     |     |     | Br- | Br+ |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
-     * |     VV     |     |     |     |     | RST | EEP |     | RM0 | RM1 | RM2 |     VV     | V + | Mute |
+     * |     VV     |     |     |     |     |     |     |     | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * |   VV  |  VV  |  VV  |                                     |  VV  |  VV  |   | Prev  | V - | Next |
      * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
-        XXXXXXX,  XXXXXXX,  BRGHT_I,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  BRGHT_D,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
-        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
+        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
+        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
   
   
-    /* Keypad layer
+    /* Numpad layer
      * ,--------------------------------------------------------------------------------------------------.
      * | TO0 |     |     |     |     |     |     |  7  |  8  |  9  |     |  -  |  +  |  Backspace  | Home |
      * |-------------------------------------------------------------------------------------------+------|
@@ -93,13 +94,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | LCtrl |      | LAlt |                                     |      |      |   | Left  | Dwn | Rght |
      * `-------------------------------------------------------------------------´   `--------------------´
      */
-    //  TODO update keypad layer -> numpad and add xcv and control keys to image
-    [_KEYPAD] = LAYOUT_65_ansi_blocker(
+    [_NUMPAD] = LAYOUT_65_ansi_blocker(
         TO(0),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
         KC_TAB,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    XXXXXXX,  KC_PAST,  KC_PSLS,  XXXXXXX,  KC_PGUP,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_NUM,   XXXXXXX,  XXXXXXX,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,  XXXXXXX,            KC_ENT,   KC_PGDN,
         KC_LSFT,  XXXXXXX,  KC_X,     KC_C,     KC_V,     XXXXXXX,  XXXXXXX,  KC_P0,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
         KC_LCTL,  XXXXXXX,  KC_LALT,                                XXXXXXX,                      XXXXXXX,  XXXXXXX,            KC_LEFT,  KC_DOWN,  KC_RIGHT
+    ),
+
+
+    /* Reset and EEPROM clear layer
+     * ,--------------------------------------------------------------------------------------------------.
+     * | TO0 |     |     |     |     |     |     |     |     |     |     |     |     |             |      |
+     * |-------------------------------------------------------------------------------------------+------|
+     * |        |     |     |     |     |     |     |     |     |     |     |     |     |          |      |
+     * |-------------------------------------------------------------------------------------------+------|
+     * |          |     |     |     |     |     |     | RST | EEP |     |     |     |              |      |
+     * |-------------------------------------------------------------------------------------------+------|
+     * |            |     |     |     |     |     |     |     |     |     |     |            |     |      |
+     * |-------------------------------------------------------------------------┬---┬-------------+------|
+     * |       |      |      |                                     |      |      |   |       |     |      |
+     * `-------------------------------------------------------------------------´   `--------------------´
+     */
+    [_RESET] = LAYOUT_65_ansi_blocker(
+        TO(0),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,                                XXXXXXX,                      XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
 };
 
@@ -166,7 +188,11 @@ void colorize_keycaps(void) {
 }
 
 void colorize_settings(void) {
-    rgb_matrix_set_color_hsv(LED_LBRC, HSV_MILKSHAKE_RED);
+    rgb_matrix_set_color_hsv(LED_LBRC, HSV_MILKSHAKE_PURPLE);
+    
+    rgb_matrix_set_color_hsv(LED_QUOT, HSV_MILKSHAKE_GREEN);
+    rgb_matrix_set_color_hsv(LED_SCLN, HSV_MILKSHAKE_RED);
+
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
         rgb_matrix_set_color_hsv(LED_LIST_LIGHTNIG_MODE[i], HSV_MILKSHAKE_YELLOW);
     }
@@ -174,15 +200,15 @@ void colorize_settings(void) {
 }
 
 void colorize_numpad(void) {
-    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_NUMPAD); i++) {
         if (IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {
-            rgb_matrix_set_color_hsv(LED_LIST_KEYPAD[i], HSV_MILKSHAKE_BLUE);
+            rgb_matrix_set_color_hsv(LED_LIST_NUMPAD[i], HSV_MILKSHAKE_BLUE);
         } else {
-            rgb_matrix_set_color_hsv(LED_LIST_KEYPAD[i], HSV_MILKSHAKE_RED);
+            rgb_matrix_set_color_hsv(LED_LIST_NUMPAD[i], HSV_MILKSHAKE_RED);
         }
     }
-    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
-        rgb_matrix_set_color_hsv(LED_LIST_KEYPAD_EXTRA[i], HSV_MILKSHAKE_PURPLE);
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_NUMPAD_EXTRA); i++) {
+        rgb_matrix_set_color_hsv(LED_LIST_NUMPAD_EXTRA[i], HSV_MILKSHAKE_PURPLE);
     }
     rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_RED);
 }
@@ -226,7 +252,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             break;
         }
         break;
-    case _KEYPAD:
+    case _NUMPAD:
         switch(get_lighting_mode()) {
         case 0:
             rgb_matrix_set_color_all_hsv(HSV_WHITE);
@@ -244,6 +270,13 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         default:
             break;
         }
+        break;
+    case _RESET:
+        // Special lighting for reset layer
+        rgb_matrix_set_color_all(HSV_OFF);
+        rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_J, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_K, HSV_MILKSHAKE_RED);
         break;
     default:
         break;
