@@ -83,22 +83,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,-----------------------.
      * |     | V 0 | V - | V + |
      * |-----------------------|
-     * |     |     | F 9 |     |
+     * | F17 | F18 | F19 |     |
      * |-----------------| Ply |
-     * |     |     |     |     |
+     * | F14 | F15 | F16 |     |
      * |-----------------------|
-     * |     |     |     |     |
-     * |-----------------|     |
-     * |           |     |     |
+     * | F21 | F22 | F13 |     |
+     * |-----------------| F24 |
+     * |    F20    | F23 |     |
      * `-----------------------´
      */
     [_MEDIA] = LAYOUT_numpad_6x4(
         KC_ESC,  TO(0),   TO(1),   MO(3),
         XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_F9,
-        XXXXXXX, XXXXXXX, XXXXXXX, KC_MPLY,
-        XXXXXXX, XXXXXXX, XXXXXXX,
-        KC_P2,            XXXXXXX, XXXXXXX
+        KC_F17,  KC_F18,  KC_F19,
+        KC_F14,  KC_F15,  KC_F16,  KC_MPLY,
+        KC_F21,  KC_F22,  KC_F13,
+        KC_F20,           KC_F23,  KC_F24
     ),
 
     /* Empty keymap
