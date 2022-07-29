@@ -84,11 +84,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |     | V 0 | V - | V + |
      * |-----------------------|
      * | F17 | F18 | F19 |     |
-     * |-----------------| Ply |
+     * |-----------------| F24 |
      * | F14 | F15 | F16 |     |
      * |-----------------------|
      * | F21 | F22 | F13 |     |
-     * |-----------------| F24 |
+     * |-----------------| Ply |
      * |    F20    | F23 |     |
      * `-----------------------´
      */
@@ -96,9 +96,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  TO(0),   TO(1),   MO(3),
         XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
         KC_F17,  KC_F18,  KC_F19,
-        KC_F14,  KC_F15,  KC_F16,  KC_MPLY,
+        KC_F14,  KC_F15,  KC_F16,  KC_F24,
         KC_F21,  KC_F22,  KC_F13,
-        KC_F20,           KC_F23,  KC_F24
+        KC_F20,           KC_F23,  KC_MPLY
     ),
 
     /* Empty keymap
