@@ -153,7 +153,7 @@ const uint8_t LED_LIST_NUMPAD_EXTRA[] = {
 };
 
 const uint8_t LED_LIST_LIGHTNIG_MODE[] = {
-    LED_COMM, LED_DOT, LED_SLSH,
+    LED_COMM, LED_DOT, LED_SLSH, LED_M,
 };
 
 #define ARRAYSIZE(arr)  sizeof(arr)/sizeof(arr[0])

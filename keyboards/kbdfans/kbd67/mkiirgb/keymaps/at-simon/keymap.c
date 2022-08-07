@@ -26,6 +26,7 @@ enum custom_user_keycodes {
     RGB_M_2,
     BRGHT_I,
     BRGHT_D,
+    RAINBOW,
 };
 
 // LAYERS
@@ -67,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * | Caps     |     |     |     |     |     |     |     |     |     | Br- | Br+ |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
-     * |     VV     |     |     |     |     |     |     |     | RM0 | RM1 | RM2 |     VV     | V + | Mute |
+     * |     VV     |     |     |     |     |     |     | RBW | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * |   VV  |  VV  |  VV  |                                     |  VV  |  VV  |   | Prev  | V - | Next |
      * `-------------------------------------------------------------------------´   `--------------------´
@@ -76,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
         KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
-        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
+        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
   
@@ -140,14 +141,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 
-
 // ----------------------------- Lighting stuff ----------------------------.
-#ifdef RGB_MATRIX_ENABLE  
+// #ifdef ENABLE_MILKSHAKE  
 uint8_t lighting_mode = 0;
 uint8_t hsv_val = 170;
 
 void keyboard_post_init_user(void) {
     rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
+    // rgb_matrix_mode(RGB_MATRIX_CUSTOM_my_cool_effect);
 }
 
 uint8_t get_lighting_mode(void) {
@@ -192,6 +193,9 @@ void colorize_settings(void) {
     
     rgb_matrix_set_color_hsv(LED_QUOT, HSV_MILKSHAKE_GREEN);
     rgb_matrix_set_color_hsv(LED_SCLN, HSV_MILKSHAKE_RED);
+
+    // rgb_matrix_set_color_hsv(LED_L, HSV_MILKSHAKE_GREEN);
+    // rgb_matrix_set_color_hsv(LED_K, HSV_MILKSHAKE_RED);
 
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
         rgb_matrix_set_color_hsv(LED_LIST_LIGHTNIG_MODE[i], HSV_MILKSHAKE_YELLOW);
@@ -288,18 +292,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_M_0:
             if (record->event.pressed) {
                 lighting_mode = 0;
+                rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
             }
             return false;
             break;
         case RGB_M_1:
             if (record->event.pressed) {
                 lighting_mode = 1;
+                rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
             }
             return false;
             break;
         case RGB_M_2:
             if (record->event.pressed) {
                 lighting_mode = 2;
+                rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
             }
             return false;
             break;
@@ -315,10 +322,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case RAINBOW:
+            if (record->event.pressed) {
+                lighting_mode = 3;
+                rgb_matrix_mode(RGB_MATRIX_CUSTOM_my_cool_effect);
+            }
+            return false;
+            break;
         default:
             break;
     }
     return true;
 }
-#endif
+// #endif
 // ---------------------------------------------------------------------------´
