@@ -140,16 +140,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 
+
+// ----------------------------- Lighting stuff ----------------------------.
+#ifdef RGB_MATRIX_ENABLE  
 uint8_t lighting_mode = 0;
 uint8_t hsv_val = 170;
-
 
 void keyboard_post_init_user(void) {
     rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
 }
 
-
-// ----------------------------- Lighting stuff ----------------------------.  
 uint8_t get_lighting_mode(void) {
     return lighting_mode;
 }
@@ -212,7 +212,7 @@ void colorize_numpad(void) {
     }
     rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_RED);
 }
-// ---------------------------------------------------------------------------´
+// ----------------------------------------------------------------------------
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     switch(get_highest_layer(layer_state)){ 
@@ -282,7 +282,6 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         break;
     }
 }
-// ---------------------------------------------------------------------------´
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { 
     switch (keycode) {
@@ -321,3 +320,5 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
+#endif
+// ---------------------------------------------------------------------------´
