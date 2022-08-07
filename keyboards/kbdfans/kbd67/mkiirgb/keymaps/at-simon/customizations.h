@@ -158,6 +158,7 @@ const uint8_t LED_LIST_LIGHTNIG_MODE[] = {
 
 #define ARRAYSIZE(arr)  sizeof(arr)/sizeof(arr[0])
 
+#ifdef RGB_MATRIX_ENABLE
 void rgb_matrix_set_color_all_hsv(uint8_t red, uint8_t green, uint8_t blue);
 void rgb_matrix_set_color_hsv(int index, uint8_t red, uint8_t green, uint8_t blue);
 
@@ -166,3 +167,4 @@ void colorize_settings(void);
 void colorize_numpad(void);
 
 uint8_t get_lighting_mode(void);
+#endif
