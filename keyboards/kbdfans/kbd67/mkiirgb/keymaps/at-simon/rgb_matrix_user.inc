@@ -16,7 +16,7 @@ RGB_MATRIX_EFFECT(my_cool_effect2)
 // e.g: A simple effect, self-contained within a single method
 static bool my_cool_effect(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
-    uint8_t time = scale16by8(g_rgb_timer, qadd8(rgb_matrix_config.speed / 24, 1));
+    uint8_t time = scale16by8(g_rgb_timer, qadd8(rgb_matrix_config.speed / 12, 1));
     for (uint8_t i = led_min; i < led_max; i++) {
         RGB_MATRIX_TEST_LED_FLAGS();
         uint8_t vv = (i * 255 / 67 + time) % 255;

@@ -26,6 +26,8 @@ enum custom_user_keycodes {
     RGB_M_2,
     BRGHT_I,
     BRGHT_D,
+    SPEED_I,
+    SPEED_D,
     RAINBOW,
 };
 
@@ -66,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * |        |     |     |     |     |     |     |     |     | TO3 |     | TO2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     |     |     |     |     |     |     |     |     | Br- | Br+ |              | Play |
+     * | Caps     |     |     |     |     |     |     |     | S - | S + | Br- | Br+ |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
      * |     VV     |     |     |     |     |     |     | RBW | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
@@ -76,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
+        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPEED_D,  SPEED_I,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
@@ -194,8 +196,8 @@ void colorize_settings(void) {
     rgb_matrix_set_color_hsv(LED_QUOT, HSV_MILKSHAKE_GREEN);
     rgb_matrix_set_color_hsv(LED_SCLN, HSV_MILKSHAKE_RED);
 
-    // rgb_matrix_set_color_hsv(LED_L, HSV_MILKSHAKE_GREEN);
-    // rgb_matrix_set_color_hsv(LED_K, HSV_MILKSHAKE_RED);
+    rgb_matrix_set_color_hsv(LED_L, HSV_MILKSHAKE_GREEN);
+    rgb_matrix_set_color_hsv(LED_K, HSV_MILKSHAKE_RED);
 
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
         rgb_matrix_set_color_hsv(LED_LIST_LIGHTNIG_MODE[i], HSV_MILKSHAKE_YELLOW);
@@ -326,6 +328,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 lighting_mode = 3;
                 rgb_matrix_mode(RGB_MATRIX_CUSTOM_my_cool_effect);
+            }
+            return false;
+            break;
+        case SPEED_I:
+            if (record->event.pressed) {
+                rgb_matrix_increase_speed_noeeprom();
+            }
+            return false;
+            break;
+        case SPEED_D:
+            if (record->event.pressed) {
+                rgb_matrix_decrease_speed_noeeprom();
             }
             return false;
             break;
