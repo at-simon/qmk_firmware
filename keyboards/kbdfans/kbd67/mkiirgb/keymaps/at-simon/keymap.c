@@ -149,6 +149,7 @@ uint8_t lighting_mode = 0;
 uint8_t hsv_val = 170;
 
 void keyboard_post_init_user(void) {
+    // rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
     rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
     // rgb_matrix_mode(RGB_MATRIX_CUSTOM_my_cool_effect);
 }
@@ -327,7 +328,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RAINBOW:
             if (record->event.pressed) {
                 lighting_mode = 3;
-                rgb_matrix_mode(RGB_MATRIX_CUSTOM_my_cool_effect);
+                rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
             }
             return false;
             break;
