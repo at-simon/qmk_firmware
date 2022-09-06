@@ -31,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | ESC |     | TO2 | TO3 |
      * `-----------------------´
      * ,-----------------------.
-     * | N L |  /  |  *  |  -  |
+     * | BSP |  /  |  *  |  -  |
      * |-----------------------|
      * |  7  |  8  |  9  |     |
      * |-----------------|  +  |
@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_CALC] = LAYOUT_numpad_6x4(
         KC_ESC,  XXXXXXX, TO(1),  TO(2),
-        KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,
+        KC_BSPC, KC_PSLS, KC_PAST, KC_PMNS,
         KC_P7,   KC_P8,   KC_P9,
         KC_P4,   KC_P5,   KC_P6,   KC_PPLS,
         KC_P1,   KC_P2,   KC_P3,
@@ -56,20 +56,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | ESC | TO1 |     | TO3 |
      * `-----------------------´
      * ,-----------------------.
-     * | N L |  /  |  *  |  -  |
+     * | N L |     |     |     |
      * |-----------------------|
-     * |  7  |  8  |  9  |     |
-     * |-----------------|  +  |
-     * |  4  |  5  |  6  |     |
+     * |     |     |     |     |
+     * |-----------------|     |
+     * |     |     |     |     |
      * |-----------------------|
-     * |  1  |  2  |  3  |     |
-     * |-----------------| ENT |
-     * |     0     |  .  |     |
+     * |     |     |     |     |
+     * |-----------------|     |
+     * |           |     |     |
      * `-----------------------´
      */
     [_CONTROL] = LAYOUT_numpad_6x4(
         KC_ESC,  TO(0),   XXXXXXX, TO(2),
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_NLCK, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX,
