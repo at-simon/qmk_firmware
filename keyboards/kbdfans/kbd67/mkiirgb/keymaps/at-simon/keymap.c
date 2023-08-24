@@ -30,8 +30,10 @@ enum custom_user_keycodes {
     SPEED_I,
     SPEED_D,
     RAINBOW,
-    S_GREET,
-    S_MAIL,
+    A_GREET,
+    A_MAIL,
+    K_GREET,
+    K_MAIL
 };
 
 // LAYERS
@@ -71,9 +73,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * |        |     |     |     |     |     |     |     |     | TO3 |     | TO2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     | S_M |     |     |     |     |     | S - | S + | Br- | Br+ |              | Play |
+     * | Caps     |     | A_M | K_M |     |     |     |     | S - | S + | Br- | Br+ |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
-     * |     VV     |     |     |     | S_G |     |     | RBW | RM0 | RM1 | RM2 |     VV     | V + | Mute |
+     * |     VV     |     |     |     | A_G | K_G |     | RBW | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * |   VV  |  VV  |  VV  |                                     |  VV  |  VV  |   | Prev  | V - | Next |
      * `-------------------------------------------------------------------------´   `--------------------´
@@ -81,8 +83,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  S_MAIL,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPEED_D,  SPEED_I,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
-        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  S_GREET,  XXXXXXX,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
+        KC_CAPS,  XXXXXXX,  A_MAIL,   K_MAIL,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPEED_D,  SPEED_I,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
+        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  A_GREET,  K_GREET,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
   
@@ -347,15 +349,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
-        case S_GREET:
+        case A_GREET:
             if (record->event.pressed) {
                 SEND_STRING("Viele Gr" SS_RALT("y") SS_RALT("s") "e\nSimon");
             }
             return false;
             break;
-        case S_MAIL:
+        case A_MAIL:
             if (record->event.pressed) {
-                send_string("TODO configure Mail"); // TODO insert Mail here
+                send_string("MAIL"); // TODO insert Mail here
+            }
+            return false;
+            break;
+        case K_GREET:
+            if (record->event.pressed) {
+                SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon);
+            }
+            return false;
+            break;
+        case K_MAIL:
+            if (record->event.pressed) {
+                send_string("MAIL"); // TODO insert Mail here
             }
             return false;
             break;
