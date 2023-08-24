@@ -368,13 +368,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case K_GREET:
             if (record->event.pressed) {
-                SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon"); // TODO
+                SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon"); // <TODO>
             }
             return false;
             break;
         case A_MAIL:
             if (record->event.pressed) {
-                send_string("MAIL"); // TODO insert Mail here
+                send_string("MAIL"); // <TODO>
             }
             return false;
             break;
