@@ -28,7 +28,7 @@ enum custom_user_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* _CALC
      * ,-----------------------.
-     * | ESC |     | TG2 | TG3 |
+     * | ESC |     | DF2 | DF3 |
      * `-----------------------´
      * ,-----------------------.
      * | N L |  /  |  *  |  -  |
@@ -53,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* _CONTROL
      * ,-----------------------.
-     * | ESC | TG1 |     | TG3 |
+     * | ESC | DF1 |     | DF3 |
      * `-----------------------´
      * ,-----------------------.
      * | N L |  /  |  *  |  -  |
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* _MEDIA
      * ,-----------------------.
-     * | ESC | TG0 | TG1 |     |
+     * | ESC | DF0 | DF1 |     |
      * `-----------------------´
      * ,-----------------------.
      * |     | V 0 | V - | V + |
