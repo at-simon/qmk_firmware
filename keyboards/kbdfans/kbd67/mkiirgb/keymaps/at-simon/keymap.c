@@ -34,7 +34,8 @@ enum custom_user_keycodes {
     A_GREET,
     A_MAIL,
     K_GREET,
-    K_MAIL,
+    DESK_ML,
+    DESK_MR,
 };
 
 // LAYERS
@@ -72,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------------------------------------------------------.
      * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     | PScr |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     |     |     |     |     |     |     |     | TO3 |     | TO2 |     |          | Ins  |
+     * |        |     |     |     |     |     |     |     |     | TO3 | TO2 | DM< | DM> |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
      * | Caps     |     | A_M |     |     |     |     |     |     | W L | Br- | Br+ |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
@@ -83,8 +84,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  A_MAIL,   XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  W_LOCK,   BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    TO(2),    DESK_ML,  DESK_MR,  XXXXXXX,  KC_INS,
+        KC_CAPS,  XXXXXXX,  A_MAIL,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  W_LOCK,   BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  A_GREET,  K_GREET,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
@@ -198,7 +199,10 @@ void colorize_keycaps(void) {
 }
 
 void colorize_settings(void) {
-    rgb_matrix_set_color_hsv(LED_LBRC, HSV_MILKSHAKE_PURPLE);
+    rgb_matrix_set_color_hsv(LED_P, HSV_MILKSHAKE_PURPLE); // numpad
+    
+    rgb_matrix_set_color_hsv(LED_LBRC, HSV_MILKSHAKE_YELLOW); // Windows move left
+    rgb_matrix_set_color_hsv(LED_RBRC, HSV_MILKSHAKE_YELLOW); // Windows move right
     
     rgb_matrix_set_color_hsv(LED_QUOT, HSV_MILKSHAKE_GREEN);
     rgb_matrix_set_color_hsv(LED_SCLN, HSV_MILKSHAKE_RED);
@@ -371,6 +375,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case A_MAIL:
             if (record->event.pressed) {
                 send_string("MAIL"); // TODO insert Mail here
+            }
+            return false;
+            break;
+        case DESK_ML:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_DOWN(X_LEFT_GUI) SS_TAP(X_LEFT) SS_UP(X_LEFT_GUI) SS_UP(X_LEFT_CTRL)); // Win + Ctrl + Left
+            }
+            return false;
+            break;
+        case DESK_MR:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_DOWN(X_LEFT_GUI) SS_TAP(X_RIGHT) SS_UP(X_LEFT_GUI) SS_UP(X_LEFT_CTRL)); // Win + Ctrl + Right
             }
             return false;
             break;
