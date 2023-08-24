@@ -24,6 +24,8 @@ enum custom_user_keycodes {
     RGB_M_0 = SAFE_RANGE,
     RGB_M_1,
     RGB_M_2,
+    BRGHT_I,
+    BRGHT_D,
 };
 
 // LAYERS
@@ -60,9 +62,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------------------------------------------------------.
      * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     | PScr |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     |     |     |     |     |     |     |     |     |     | TO2 |     |          | Ins  |
+     * |        |     | V I |     |     |     |     |     |     |     |     | TO2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     |     |     |     |     |     |     |     |     |     |     |              | Play |
+     * | Caps     |     | V D |     |     |     |     |     |     |     |     |     |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
      * |     VV     |     |     |     |     | RST | EEP |     | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
@@ -71,8 +73,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
+        XXXXXXX,  XXXXXXX,  BRGHT_I,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
+        KC_CAPS,  XXXXXXX,  BRGHT_D,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
@@ -119,59 +121,72 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 uint8_t lighting_mode = 0;
+uint8_t hsv_val = 255;
 
 
-void keyboard_post_init_user(void) {  
-  #ifdef RGB_MATRIX_ENABLE
-      rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
-  #endif
+void keyboard_post_init_user(void) {
+    rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
 }
 
-// ---------------------------- RGB_MATRIX_ENABLE ----------------------------.
-#ifdef RGB_MATRIX_ENABLE    
+
+// ----------------------------- Lighting stuff ----------------------------.  
 uint8_t get_lighting_mode(void) {
     return lighting_mode;
 }
 
+
+void rgb_matrix_set_color_hsv(int index, uint8_t hue, uint8_t sat, uint8_t val) {
+    HSV hsv = {hue, sat, hsv_val};
+    RGB rgb = hsv_to_rgb(hsv);
+    rgb_matrix_driver.set_color(index, rgb.r, rgb.g, rgb.b);
+}
+
+void rgb_matrix_set_color_all_hsv(uint8_t hue, uint8_t sat, uint8_t val) {
+    HSV hsv = {hue, sat, hsv_val};
+    RGB rgb = hsv_to_rgb(hsv);
+    rgb_matrix_driver.set_color_all(rgb.r, rgb.g, rgb.b);
+}
+
+
 // -------------------------------- Milkshake --------------------------------.
 void colorize_keycaps(void) {
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_YELLOW); i++) {
-        rgb_matrix_set_color(LED_LIST_MILKSHAKE_YELLOW[i], RGB_MILKSHAKE_YELLOW);
+        rgb_matrix_set_color_hsv(LED_LIST_MILKSHAKE_YELLOW[i], HSV_MILKSHAKE_YELLOW);
     }
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_RED); i++) {
-        rgb_matrix_set_color(LED_LIST_MILKSHAKE_RED[i], RGB_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_LIST_MILKSHAKE_RED[i], HSV_MILKSHAKE_RED);
     }
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_GREEN); i++) {
-        rgb_matrix_set_color(LED_LIST_MILKSHAKE_GREEN[i], RGB_MILKSHAKE_GREEN);
+        rgb_matrix_set_color_hsv(LED_LIST_MILKSHAKE_GREEN[i], HSV_MILKSHAKE_GREEN);
     }
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_BLUE); i++) {
-        rgb_matrix_set_color(LED_LIST_MILKSHAKE_BLUE[i], RGB_MILKSHAKE_BLUE);
+        rgb_matrix_set_color_hsv(LED_LIST_MILKSHAKE_BLUE[i], HSV_MILKSHAKE_BLUE);
     }
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_PURPLE); i++) {
-        rgb_matrix_set_color(LED_LIST_MILKSHAKE_PURPLE[i], RGB_MILKSHAKE_PURPLE);
+        rgb_matrix_set_color_hsv(LED_LIST_MILKSHAKE_PURPLE[i], HSV_MILKSHAKE_PURPLE);
     }
 }
 
 void colorize_settings(void) {
-    rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
+    rgb_matrix_set_color_hsv(LED_LBRC, HSV_MILKSHAKE_RED);
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
-        rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
+        rgb_matrix_set_color_hsv(LED_LIST_LIGHTNIG_MODE[i], HSV_MILKSHAKE_YELLOW);
     }
-    rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], RGB_MILKSHAKE_RED);
+    rgb_matrix_set_color_hsv(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], HSV_MILKSHAKE_RED);
 }
 
 void colorize_numpad(void) {
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
         if (IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {
-            rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_BLUE);
+            rgb_matrix_set_color_hsv(LED_LIST_KEYPAD[i], HSV_MILKSHAKE_BLUE);
         } else {
-            rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_RED);
+            rgb_matrix_set_color_hsv(LED_LIST_KEYPAD[i], HSV_MILKSHAKE_RED);
         }
     }
     for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
-        rgb_matrix_set_color(LED_LIST_KEYPAD_EXTRA[i], RGB_MILKSHAKE_PURPLE);
+        rgb_matrix_set_color_hsv(LED_LIST_KEYPAD_EXTRA[i], HSV_MILKSHAKE_PURPLE);
     }
-    rgb_matrix_set_color(LED_ESC, RGB_MILKSHAKE_RED);
+    rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_RED);
 }
 // ---------------------------------------------------------------------------´
 
@@ -180,15 +195,15 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     case _BASE:
         switch(get_lighting_mode()) {
         case 0:
-            rgb_matrix_set_color_all(RGB_WHITE);
+            rgb_matrix_set_color_all_hsv(HSV_WHITE);
             colorize_keycaps();
             break;
         case 1:
-            rgb_matrix_set_color_all(RGB_OFF);
+            rgb_matrix_set_color_all(HSV_OFF);
             colorize_keycaps();
             break;
         case 2:
-            rgb_matrix_set_color_all(RGB_OFF);
+            rgb_matrix_set_color_all(HSV_OFF);
             break;
         default:
             break;
@@ -197,17 +212,17 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     case _SETTINGS: 
         switch(get_lighting_mode()) {
         case 0:
-            rgb_matrix_set_color_all(RGB_WHITE);
+            rgb_matrix_set_color_all_hsv(HSV_WHITE);
             colorize_keycaps();
             colorize_settings();
             break;
         case 1:
-            rgb_matrix_set_color_all(RGB_OFF);
+            rgb_matrix_set_color_all(HSV_OFF);
             colorize_keycaps();
             colorize_settings();
             break;
         case 2:
-            rgb_matrix_set_color_all(RGB_OFF);
+            rgb_matrix_set_color_all(HSV_OFF);
             break;
         default:
             break;
@@ -216,17 +231,17 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     case _KEYPAD:
         switch(get_lighting_mode()) {
         case 0:
-            rgb_matrix_set_color_all(RGB_WHITE);
+            rgb_matrix_set_color_all_hsv(HSV_WHITE);
             colorize_keycaps();
             colorize_numpad();
             break;
         case 1:
-            rgb_matrix_set_color_all(RGB_OFF);
+            rgb_matrix_set_color_all(HSV_OFF);
             colorize_keycaps();
             colorize_numpad();
             break;
         case 2:
-            rgb_matrix_set_color_all(RGB_OFF);
+            rgb_matrix_set_color_all(HSV_OFF);
             break;
         default:
             break;
@@ -236,7 +251,6 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         break;
     }
 }
-#endif
 // ---------------------------------------------------------------------------´
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { 
@@ -256,6 +270,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_M_2:
             if (record->event.pressed) {
                 lighting_mode = 2;
+            }
+            return false;
+            break;
+        case BRGHT_I:
+            if (record->event.pressed) {
+                hsv_val = (hsv_val >= 238) ? 255 : hsv_val + 17;
+            }
+            return false;
+            break;
+        case BRGHT_D:
+            if (record->event.pressed) {
+                hsv_val = (hsv_val <= 34) ? 17 : hsv_val - 17;
             }
             return false;
             break;
