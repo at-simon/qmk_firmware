@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 uint8_t lighting_mode = 0;
-uint8_t hsv_val = 255;
+uint8_t hsv_val = 170;
 
 
 void keyboard_post_init_user(void) {
