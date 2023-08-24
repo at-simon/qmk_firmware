@@ -45,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | Shift      |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  |   Shift    | Up  | End  |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * | LCtrl | LGUI | LAlt |               Space                 | RAlt | MO 1 |   | Left  | Dwn | Rght |
-     * `-------------------------------------------------------------------------┘   └--------------------´
+     * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_BASE] = LAYOUT_65_ansi_blocker(
         QK_GESC,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,  KC_HOME,
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |     VV     |     |     |     |     | RST | EEP |     | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * |   VV  |  VV  |  VV  |                                     |  VV  |  VV  |   | Prev  | V - | Next |
-     * `-------------------------------------------------------------------------┘   └--------------------´
+     * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
@@ -89,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |            |     |     |     |     |     |     |  0  |  ,  |  .  |  /  |            | Up  | End  |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * |       |      |      |                                     |      |      |   | Left  | Dwn | Rght |
-     * `-------------------------------------------------------------------------┘   └--------------------´
+     * `-------------------------------------------------------------------------´   `--------------------´
      */
     //  TODO update keypad layer -> numpad and add xcv and control keys to image
     [_KEYPAD] = LAYOUT_65_ansi_blocker(
@@ -114,147 +114,130 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |            |     |     |     |     |     |     |     |     |     |     |            |     |      |
  * |-------------------------------------------------------------------------┬---┬-------------+------|
  * |       |      |      |                                     |      |      |   |       |     |      |
- * `-------------------------------------------------------------------------┘   └--------------------´
- 
- * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬───────────┬─────┐
- * │     │     │     │     │     │     │     │     │     │     │     │     │     │           │     │
- * ├─────┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬────────┼─────┤
- * │        │     │     │     │     │     │     │     │     │     │     │     │     │        │     │
- * │────────┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴────────┼─────┤
- * │          │     │     │     │     │     │     │     │     │     │     │     │            │     │
- * ├──────────┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴──────┬─────┼─────┤
- * │            │     │     │     │     │     │     │     │     │     │     │          │     │     │
- * ├───────┬────┴─┬───┴──┬──┴─────┴─────┴─────┴─────┴─────┴────┬┴─────┼─────┴┬───┬───────────┼─────┤
- * │       │      │      │                                     │      │      │   │     │     │     │
- * └───────┴──────┴──────┴─────────────────────────────────────┴──────┴──────┘   └─────┴─────┴─────┘
- *
- * ┌ ─ ┬ ─ ┐
- * │   │   │
- * ├ ─ ┼ ─ ┤
- * │   │   │
- * └ ─ ┴ ─ ┘
+ * `-------------------------------------------------------------------------´   `--------------------´
  */
 
-__attribute__ ((weak)) void keyboard_post_init_keymap(void) {}
 
-void keyboard_post_init_user(void) {
-  keyboard_post_init_keymap();
-  
+uint8_t lighting_mode = 0;
+
+
+void keyboard_post_init_user(void) {  
   #ifdef RGB_MATRIX_ENABLE
       rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
   #endif
 }
 
-#ifdef RGB_MATRIX_ENABLE
-    static uint8_t lighting_mode = 0;
-    
-    uint8_t get_lighting_mode(void) {
-      return lighting_mode;
-    }
+// ---------------------------- RGB_MATRIX_ENABLE ----------------------------.
+#ifdef RGB_MATRIX_ENABLE    
+uint8_t get_lighting_mode(void) {
+    return lighting_mode;
+}
 
-    void colorize_keycaps(void) {
-      for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_YELLOW); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_YELLOW[i], RGB_MILKSHAKE_YELLOW);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_RED); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_RED[i], RGB_MILKSHAKE_RED);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_GREEN); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_GREEN[i], RGB_MILKSHAKE_GREEN);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_BLUE); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_BLUE[i], RGB_MILKSHAKE_BLUE);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_PURPLE); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_PURPLE[i], RGB_MILKSHAKE_PURPLE);
+// -------------------------------- Milkshake --------------------------------.
+void colorize_keycaps(void) {
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_YELLOW); i++) {
+        rgb_matrix_set_color(LED_LIST_MILKSHAKE_YELLOW[i], RGB_MILKSHAKE_YELLOW);
+    }
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_RED); i++) {
+        rgb_matrix_set_color(LED_LIST_MILKSHAKE_RED[i], RGB_MILKSHAKE_RED);
+    }
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_GREEN); i++) {
+        rgb_matrix_set_color(LED_LIST_MILKSHAKE_GREEN[i], RGB_MILKSHAKE_GREEN);
+    }
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_BLUE); i++) {
+        rgb_matrix_set_color(LED_LIST_MILKSHAKE_BLUE[i], RGB_MILKSHAKE_BLUE);
+    }
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_PURPLE); i++) {
+        rgb_matrix_set_color(LED_LIST_MILKSHAKE_PURPLE[i], RGB_MILKSHAKE_PURPLE);
+    }
+}
+
+void colorize_settings(void) {
+    rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
+        rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
+    }
+    rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], RGB_MILKSHAKE_RED);
+}
+
+void colorize_numpad(void) {
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
+        if (IS_HOST_LED_ON(USB_LED_NUM_LOCK) == true) {
+            rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_BLUE);
+        } else {
+            rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_RED);
         }
     }
-
-    void colorize_settings(void) {
-        rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
-            rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
-        }
-        rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], RGB_MILKSHAKE_RED);
+    for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
+        rgb_matrix_set_color(LED_LIST_KEYPAD_EXTRA[i], RGB_MILKSHAKE_PURPLE);
     }
+    rgb_matrix_set_color(LED_ESC, RGB_MILKSHAKE_RED);
+}
+// ---------------------------------------------------------------------------´
 
-    void colorize_numpad(void) {
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
-            if (IS_HOST_LED_ON(USB_LED_NUM_LOCK) == true) {
-                rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_BLUE);
-            } else {
-                rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_RED);
-            }
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
-            rgb_matrix_set_color(LED_LIST_KEYPAD_EXTRA[i], RGB_MILKSHAKE_PURPLE);
-        }
-        rgb_matrix_set_color(LED_ESC, RGB_MILKSHAKE_RED);
-    }
-
-    void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-        switch(get_highest_layer(layer_state)){ 
-        case _BASE:
-            switch(get_lighting_mode()) {
-            case 0:
-                rgb_matrix_set_color_all(RGB_WHITE);
-                colorize_keycaps();
-                break;
-            case 1:
-                rgb_matrix_set_color_all(RGB_OFF);
-                colorize_keycaps();
-                break;
-            case 2:
-                rgb_matrix_set_color_all(RGB_OFF);
-                break;
-            default:
-                break;
-            }
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    switch(get_highest_layer(layer_state)){ 
+    case _BASE:
+        switch(get_lighting_mode()) {
+        case 0:
+            rgb_matrix_set_color_all(RGB_WHITE);
+            colorize_keycaps();
             break;
-        case _SETTINGS: 
-            switch(get_lighting_mode()) {
-            case 0:
-                rgb_matrix_set_color_all(RGB_WHITE);
-                colorize_keycaps();
-                colorize_settings();
-                break;
-            case 1:
-                rgb_matrix_set_color_all(RGB_OFF);
-                colorize_keycaps();
-                colorize_settings();
-                break;
-            case 2:
-                rgb_matrix_set_color_all(RGB_OFF);
-                break;
-            default:
-                break;
-            }
+        case 1:
+            rgb_matrix_set_color_all(RGB_OFF);
+            colorize_keycaps();
             break;
-        case _KEYPAD:
-            switch(get_lighting_mode()) {
-            case 0:
-                rgb_matrix_set_color_all(RGB_WHITE);
-                colorize_keycaps();
-                colorize_numpad();
-                break;
-            case 1:
-                rgb_matrix_set_color_all(RGB_OFF);
-                colorize_keycaps();
-                colorize_numpad();
-                break;
-            case 2:
-                rgb_matrix_set_color_all(RGB_OFF);
-                break;
-            default:
-                break;
-            }
+        case 2:
+            rgb_matrix_set_color_all(RGB_OFF);
             break;
         default:
             break;
         }
-    }    
+        break;
+    case _SETTINGS: 
+        switch(get_lighting_mode()) {
+        case 0:
+            rgb_matrix_set_color_all(RGB_WHITE);
+            colorize_keycaps();
+            colorize_settings();
+            break;
+        case 1:
+            rgb_matrix_set_color_all(RGB_OFF);
+            colorize_keycaps();
+            colorize_settings();
+            break;
+        case 2:
+            rgb_matrix_set_color_all(RGB_OFF);
+            break;
+        default:
+            break;
+        }
+        break;
+    case _KEYPAD:
+        switch(get_lighting_mode()) {
+        case 0:
+            rgb_matrix_set_color_all(RGB_WHITE);
+            colorize_keycaps();
+            colorize_numpad();
+            break;
+        case 1:
+            rgb_matrix_set_color_all(RGB_OFF);
+            colorize_keycaps();
+            colorize_numpad();
+            break;
+        case 2:
+            rgb_matrix_set_color_all(RGB_OFF);
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
+}
 #endif
-
+// ---------------------------------------------------------------------------´
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { 
     switch (keycode) {
