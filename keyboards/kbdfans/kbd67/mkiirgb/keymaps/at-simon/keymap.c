@@ -36,18 +36,33 @@ enum custom_user_keycodes {
     K_GREET,
     DESK_ML,
     DESK_MR,
+    MAC_ON,
+    WIN_ON,
 };
 
 // LAYERS
 enum custom_user_layers {
-    _BASE,
+    _B_MAC,
+    _B_WIN,
     _SETTINGS,
-    _NUMPAD,
     _RESET,
 };
+    // _NUMPAD,
 
+// Interact with layers
+// #define DF_MAC DF(_B_MAC)
+// #define DF_WIN DF(_B_WIN)
+#define MO_SET MO(_SETTINGS)
+#define TG_RST TG(_RESET)
+
+// Default values
+uint8_t lighting_mode = 3; // default: Rainbow
+uint8_t hsv_val = 170;
+bool mac_enabled = true;
+
+// Keymap
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /* Base layer
+    /* MacBase
      * ,--------------------------------------------------------------------------------------------------.
      * | Ec~ |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |  Backspace  | Home |
      * |-------------------------------------------------------------------------------------------+------|
@@ -57,37 +72,60 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * | Shift      |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  |   Shift    | Up  | End  |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
-     * | LCtrl | LGUI | LAlt |               Space                 | RAlt | MO 1 |   | Left  | Dwn | Rght |
+     * | Lctrl | Lopt | Lcmd |               Space                 | Ropt | Set  |   | Left  | Dwn | Rght |   | Intendet by Apple
+     * | Lopt | Lctrl | Lcmd |               Space                 | Ropt | Set  |   | Left  | Dwn | Rght |   | My Choice
      * `-------------------------------------------------------------------------´   `--------------------´
      */
-    [_BASE] = LAYOUT_65_ansi_blocker(
+    [_B_MAC] = LAYOUT_65_ansi_blocker(
         QK_GESC,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,  KC_HOME,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLASH,KC_PGUP,
         XXXXXXX,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_ENT,   KC_PGDN,
         KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
-        KC_LCTL,  KC_LGUI,  KC_LALT,                                KC_SPC,                       KC_RALT,  MO(1),              KC_LEFT,  KC_DOWN,  KC_RIGHT
+        KC_LOPT,  KC_LCTL,  KC_LCMD,                                KC_SPC,                       KC_ROPT,  MO_SET,             KC_LEFT,  KC_DOWN,  KC_RIGHT // KC_SPC
+    ),
+ 
+
+    /* Base Windows
+     * ,--------------------------------------------------------------------------------------------------.
+     * | Ec~ |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |  Backspace  | Home |
+     * |-------------------------------------------------------------------------------------------+------|
+     * | Tab    |  Q  |  W  |  E  |  R  |  T  |  Y  |  U  |  I  |  O  |  P  |  [  |  ]  |    \     | PgUp |
+     * |-------------------------------------------------------------------------------------------+------|
+     * |          |  A  |  S  |  D  |  F  |  G  |  H  |  J  |  K  |  L  |  ;  |  '  |     Enter    | PgDn |
+     * |-------------------------------------------------------------------------------------------+------|
+     * | Shift      |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  |   Shift    | Up  | End  |
+     * |-------------------------------------------------------------------------┬---┬-------------+------|
+     * | Lctrl | Lwin | Lalt |               Space                 | Ralt | Set  |   | Left  | Dwn | Rght |
+     * `-------------------------------------------------------------------------´   `--------------------´
+     */
+    [_B_WIN] = LAYOUT_65_ansi_blocker(
+        QK_GESC,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,  KC_HOME,
+        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLASH,KC_PGUP,
+        XXXXXXX,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_ENT,   KC_PGDN,
+        KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
+        KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                       KC_RALT,  MO_SET,             KC_LEFT,  KC_DOWN,  KC_RIGHT // KC_SPC
     ),
 
 
     /* Settings layer
      * ,--------------------------------------------------------------------------------------------------.
-     * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     | PScr |
+     * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     |      |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     |     |     |     |     |     |     |     | TO3 | TO2 | DM< | DM> |          | Ins  |
+     * |        |     |     |     |     |     |     |     |     | Set |     | DM< | DM> |          |      |  // <TODO> Move Desktop auf Mac anpassen
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     | A_M |     |     |     |     |     |     | W L | Br- | Br+ |              | Play |
+     * | Caps     |     | A_M |     |     |     |     |     |     | W L | Br- | Br+ |              | Play |  // <TODO> Win Lock auf Mac anpassen
      * |-------------------------------------------------------------------------------------------+------|
-     * |     VV     |     |     |     | A_G | K_G |     | RBW | RM0 | RM1 | RM2 |     VV     | V + | Mute |
+     * |            |     |     |     | A_G | K_G |     | RBW | RM0 | RM1 | RM2 |            | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
-     * |   VV  |  VV  |  VV  |                                     |  VV  |  VV  |   | Prev  | V - | Next |
+     * |       |      |      |                                     |      |  VV  |   | Prev  | V - | Next |
      * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
-        KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    TO(2),    DESK_ML,  DESK_MR,  XXXXXXX,  KC_INS,
+        KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   XXXXXXX,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG_RST,   XXXXXXX,  DESK_ML,  DESK_MR,  XXXXXXX,  XXXXXXX,
         KC_CAPS,  XXXXXXX,  A_MAIL,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  W_LOCK,   BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
-        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  A_GREET,  K_GREET,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
-        _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  A_GREET,  K_GREET,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  XXXXXXX,            KC_VOLU,  KC_MUTE,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,                                XXXXXXX,                      XXXXXXX,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
   
   
@@ -104,22 +142,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | LCtrl |      | LAlt |                                     |      |      |   | Left  | Dwn | Rght |
      * `-------------------------------------------------------------------------´   `--------------------´
      */
-    [_NUMPAD] = LAYOUT_65_ansi_blocker(
-        TO(0),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
-        KC_TAB,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    XXXXXXX,  KC_PAST,  KC_PSLS,  XXXXXXX,  KC_PGUP,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_NUM,   XXXXXXX,  XXXXXXX,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,  XXXXXXX,            KC_ENT,   KC_PGDN,
-        KC_LSFT,  XXXXXXX,  KC_X,     KC_C,     KC_V,     XXXXXXX,  XXXXXXX,  KC_P0,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
-        KC_LCTL,  XXXXXXX,  KC_LALT,                                XXXXXXX,                      XXXXXXX,  XXXXXXX,            KC_LEFT,  KC_DOWN,  KC_RIGHT
-    ),
+    // [_NUMPAD] = LAYOUT_65_ansi_blocker(
+    //     TO(0),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
+    //     KC_TAB,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    XXXXXXX,  KC_PAST,  KC_PSLS,  XXXXXXX,  KC_PGUP,
+    //     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_NUM,   XXXXXXX,  XXXXXXX,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,  XXXXXXX,            KC_ENT,   KC_PGDN,
+    //     KC_LSFT,  XXXXXXX,  KC_X,     KC_C,     KC_V,     XXXXXXX,  XXXXXXX,  KC_P0,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
+    //     KC_LCTL,  XXXXXXX,  KC_LALT,                                XXXXXXX,                      XXXXXXX,  XXXXXXX,            KC_LEFT,  KC_DOWN,  KC_RIGHT
+    // ),
 
 
     /* Reset and EEPROM clear layer
      * ,--------------------------------------------------------------------------------------------------.
-     * | TO0 |     |     |     |     |     |     |     |     |     |     |     |     |             |      |
+     * | Rtn |     | KC_O| Mac | Win |     |     |     |     |     |     |     |     |             |  RST |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     |     |     |     |     |     |     |     |     |     |     |     |          |      |
+     * |        |     |     |     |     |     |     |     |     |     |     |     |     |          |  EEP |
      * |-------------------------------------------------------------------------------------------+------|
-     * |          |     |     |     |     |     |     | RST | EEP |     |     |     |              |      |
+     * |          |     |     |     |     |     |     |     |     |     |     |     |              |      |
      * |-------------------------------------------------------------------------------------------+------|
      * |            |     |     |     |     |     |     |     |     |     |     |            |     |      |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
@@ -127,9 +165,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_RESET] = LAYOUT_65_ansi_blocker(
-        TO(0),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
+        TG_RST,   XXXXXXX,  KC_O,     MAC_ON,   WIN_ON,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  EE_CLR,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
         XXXXXXX,  XXXXXXX,  XXXXXXX,                                XXXXXXX,                      XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
@@ -149,11 +187,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-------------------------------------------------------------------------´   `--------------------´
  */
 
+   
 
 // ----------------------------- Lighting stuff ----------------------------.
 // #ifdef ENABLE_MILKSHAKE  
-uint8_t lighting_mode = 3; // default: Rainbow
-uint8_t hsv_val = 170;
 
 void keyboard_post_init_user(void) {
     rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP); // default for rainbow
@@ -229,11 +266,26 @@ void colorize_numpad(void) {
     }
     rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_RED);
 }
+
+void colorize_os_indicators(void) {
+    if (mac_enabled) {
+        rgb_matrix_set_color_hsv(LED_7, HSV_WHITE);
+        rgb_matrix_set_color_hsv(LED_8, HSV_WHITE);
+        rgb_matrix_set_color_hsv(LED_9, HSV_WHITE);
+        rgb_matrix_set_color_hsv(LED_0, HSV_WHITE);
+    } else {
+        rgb_matrix_set_color_hsv(LED_7, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_8, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_9, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_0, HSV_MILKSHAKE_RED);
+    }
+}
 // ----------------------------------------------------------------------------
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     switch(get_highest_layer(layer_state)){ 
-    case _BASE:
+    case _B_MAC:
+    case _B_WIN:
         switch(get_lighting_mode()) {
         case 0:
             rgb_matrix_set_color_all_hsv(HSV_WHITE);
@@ -269,36 +321,43 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             break;
         }
         break;
-    case _NUMPAD:
-        switch(get_lighting_mode()) {
-        case 0:
-            rgb_matrix_set_color_all_hsv(HSV_WHITE);
-            colorize_keycaps();
-            colorize_numpad();
-            break;
-        case 1:
-            rgb_matrix_set_color_all(HSV_OFF);
-            colorize_keycaps();
-            colorize_numpad();
-            break;
-        case 2:
-            rgb_matrix_set_color_all(HSV_OFF);
-            break;
-        default:
-            break;
-        }
-        break;
+    // case _NUMPAD:
+    //     switch(get_lighting_mode()) {
+    //     case 0:
+    //         rgb_matrix_set_color_all_hsv(HSV_WHITE);
+    //         colorize_keycaps();
+    //         colorize_numpad();
+    //         break;
+    //     case 1:
+    //         rgb_matrix_set_color_all(HSV_OFF);
+    //         colorize_keycaps();
+    //         colorize_numpad();
+    //         break;
+    //     case 2:
+    //         rgb_matrix_set_color_all(HSV_OFF);
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    //     break;
     case _RESET:
         // Special lighting for reset layer
         rgb_matrix_set_color_all(HSV_OFF);
-        rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_RED);
-        rgb_matrix_set_color_hsv(LED_J, HSV_MILKSHAKE_RED);
-        rgb_matrix_set_color_hsv(LED_K, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_GREEN);
+        rgb_matrix_set_color_hsv(LED_DEL, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_PGUP, HSV_MILKSHAKE_GREEN);
+        rgb_matrix_set_color_hsv(LED_3, HSV_WHITE);
+        rgb_matrix_set_color_hsv(LED_4, HSV_MILKSHAKE_BLUE);
+
+        colorize_os_indicators();
         break;
     default:
         break;
     }
 }
+
+
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { 
     switch (keycode) {
@@ -390,6 +449,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case MAC_ON:
+            if (record->event.pressed) {
+                layer_on(_B_MAC);
+                layer_off(_B_WIN);
+                mac_enabled = true;
+            }
+            return false;
+            break;
+        case WIN_ON:
+            if (record->event.pressed) {
+                layer_on(_B_WIN);
+                layer_off(_B_MAC);
+                mac_enabled = false;
+            }
+            return false;
+            break;
         default:
             break;
     }
@@ -397,3 +472,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 // #endif
 // ---------------------------------------------------------------------------´
+

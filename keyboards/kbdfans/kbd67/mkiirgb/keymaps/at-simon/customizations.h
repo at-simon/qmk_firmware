@@ -165,6 +165,7 @@ void rgb_matrix_set_color_hsv(int index, uint8_t red, uint8_t green, uint8_t blu
 void colorize_keycaps(void);
 void colorize_settings(void);
 void colorize_numpad(void);
+void colorize_os_indicators(void);
 
 uint8_t get_lighting_mode(void);
 #endif
