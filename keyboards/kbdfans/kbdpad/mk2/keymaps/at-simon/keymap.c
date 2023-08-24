@@ -18,46 +18,113 @@
 #include "customizations.h"
 
 enum custom_user_layers {
-    _BASE,
-    _MAKROPAD,
+    _CALC,
+    _CONTROL,
+    _MEDIA,
+    _RESET
 };
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /* _BASE
-  * ,-----------------------.
-  * | TG2 |     | F 2 | F 3 |
-  * `-----------------------´
-  * ,-----------------------.
-  * | N L |  /  |  *  |  -  |
-  * |-----------------------|
-  * |  7  |  8  |  9  |     |
-  * |-----------------|  +  |
-  * |  4  |  5  |  6  |     |
-  * |-----------------------|
-  * |  1  |  2  |  3  |     |
-  * |-----------------| ENT |
-  * |     0     |  .  |     |
-  * `-----------------------´
-  */
-  [_BASE] = LAYOUT_numpad_6x4(
-    TG(1),   XXXXXXX, XXXXXXX, XXXXXXX,
-    KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,
-    KC_P7,   KC_P8,   KC_P9,
-    KC_P4,   KC_P5,   KC_P6,   KC_PPLS,
-    KC_P1,   KC_P2,   KC_P3,
-    KC_P0,            KC_PDOT, KC_PENT
-  ),
+    /* _CALC
+     * ,-----------------------.
+     * | ESC |     | TG2 | TG3 |
+     * `-----------------------´
+     * ,-----------------------.
+     * | N L |  /  |  *  |  -  |
+     * |-----------------------|
+     * |  7  |  8  |  9  |     |
+     * |-----------------|  +  |
+     * |  4  |  5  |  6  |     |
+     * |-----------------------|
+     * |  1  |  2  |  3  |     |
+     * |-----------------| ENT |
+     * |     0     |  .  |     |
+     * `-----------------------´  KC_ESC
+     */
+    [_CALC] = LAYOUT_numpad_6x4(
+        KC_ESC,  XXXXXXX, DF(1),  DF(2),
+        KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,
+        KC_P7,   KC_P8,   KC_P9,
+        KC_P4,   KC_P5,   KC_P6,   KC_PPLS,
+        KC_P1,   KC_P2,   KC_P3,
+        KC_P0,            KC_PDOT, KC_PENT
+    ),
 
+    /* _CONTROL
+     * ,-----------------------.
+     * | ESC | TG1 |     | TG3 |
+     * `-----------------------´
+     * ,-----------------------.
+     * | N L |  /  |  *  |  -  |
+     * |-----------------------|
+     * |  7  |  8  |  9  |     |
+     * |-----------------|  +  |
+     * |  4  |  5  |  6  |     |
+     * |-----------------------|
+     * |  1  |  2  |  3  |     |
+     * |-----------------| ENT |
+     * |     0     |  .  |     |
+     * `-----------------------´
+     */
+    [_CONTROL] = LAYOUT_numpad_6x4(
+        KC_ESC,  DF(0),   XXXXXXX, DF(2),
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_P1,            XXXXXXX, XXXXXXX
+    ),
 
-  [_MAKROPAD] = LAYOUT_numpad_6x4(
-    XXXXXXX, TG(1),   XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
-    XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, KC_P1,   XXXXXXX,
-    XXXXXXX,          XXXXXXX, XXXXXXX
-  )
+    /* _MEDIA
+     * ,-----------------------.
+     * | ESC | TG0 | TG1 |     |
+     * `-----------------------´
+     * ,-----------------------.
+     * |     | V 0 | V - | V + |
+     * |-----------------------|
+     * |     |     |     |     |
+     * |-----------------|     |
+     * |     |     |     |     |
+     * |-----------------------|
+     * |     |     |     |     |
+     * |-----------------|     |
+     * |           |     |     |
+     * `-----------------------´
+     */
+    [_MEDIA] = LAYOUT_numpad_6x4(
+        KC_ESC,  DF(0),   DF(1),   MO(3),
+        XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
+        XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_P2,            XXXXXXX, XXXXXXX
+    ),
+
+    /* Empty keymap
+     * ,-----------------------.
+     * |     |     |     |     |
+     * `-----------------------´
+     * ,-----------------------.
+     * |     |     |     |     |
+     * |-----------------------|
+     * |     |     |     |     |
+     * |-----------------|     |
+     * |     |     |     |     |
+     * |-----------------------|
+     * |     |     |     |     |
+     * |-----------------|     |
+     * |           |     |     |
+     * `-----------------------´
+     */
+    [_RESET] = LAYOUT_numpad_6x4(
+        XXXXXXX, XXXXXXX, XXXXXXX, _______,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX,
+        QK_BOOT,          EE_CLR,  XXXXXXX
+    )
 };
 
 
