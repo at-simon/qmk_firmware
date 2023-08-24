@@ -149,7 +149,7 @@
     };
 
     const uint8_t LED_LIST_LIGHTNIG_MODE[] = {
-      LED_S, LED_D, LED_F
+      LED_COMM, LED_DOT, LED_SLSH,
     };
 
 
