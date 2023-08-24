@@ -28,7 +28,7 @@ enum custom_user_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* _CALC
      * ,-----------------------.
-     * | ESC |     | DF2 | DF3 |
+     * | ESC |     | TO2 | TO3 |
      * `-----------------------´
      * ,-----------------------.
      * | N L |  /  |  *  |  -  |
@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------´  KC_ESC
      */
     [_CALC] = LAYOUT_numpad_6x4(
-        KC_ESC,  XXXXXXX, DF(1),  DF(2),
+        KC_ESC,  XXXXXXX, TO(1),  TO(2),
         KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,
         KC_P7,   KC_P8,   KC_P9,
         KC_P4,   KC_P5,   KC_P6,   KC_PPLS,
@@ -53,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* _CONTROL
      * ,-----------------------.
-     * | ESC | DF1 |     | DF3 |
+     * | ESC | TO1 |     | TO3 |
      * `-----------------------´
      * ,-----------------------.
      * | N L |  /  |  *  |  -  |
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------´
      */
     [_CONTROL] = LAYOUT_numpad_6x4(
-        KC_ESC,  DF(0),   XXXXXXX, DF(2),
+        KC_ESC,  TO(0),   XXXXXXX, TO(2),
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* _MEDIA
      * ,-----------------------.
-     * | ESC | DF0 | DF1 |     |
+     * | ESC | TO0 | TO1 |     |
      * `-----------------------´
      * ,-----------------------.
      * |     | V 0 | V - | V + |
@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------´
      */
     [_MEDIA] = LAYOUT_numpad_6x4(
-        KC_ESC,  DF(0),   DF(1),   MO(3),
+        KC_ESC,  TO(0),   TO(1),   MO(3),
         XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
         XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
