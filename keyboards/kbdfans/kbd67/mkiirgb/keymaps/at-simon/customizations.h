@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+
 #ifdef RGB_MATRIX_ENABLE
 
     // Custom Colors
@@ -146,8 +148,16 @@
       LED_LEFT, LED_DOWN, LED_RIGHT,
     };
 
+    const uint8_t LED_LIST_LIGHTNIG_MODE[] = {
+      LED_S, LED_D, LED_F
+    };
+
+
 #endif
 
 #define ARRAYSIZE(arr)  sizeof(arr)/sizeof(arr[0])
+
+void colorize_keycaps(void);
+uint8_t get_lighting_mode(void);
 
 // void activate_numlock(bool turn_on);

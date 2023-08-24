@@ -19,6 +19,13 @@
 #include QMK_KEYBOARD_H
 #include "customizations.h"
 
+// Custom Keycodes
+enum custom_user_keycodes {
+    RGB_M_0 = SAFE_RANGE,
+    RGB_M_1,
+    RGB_M_2,
+};
+
 // LAYERS
 enum custom_user_layers {
     _BASE,
@@ -40,8 +47,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | LCtrl | LGUI | LAlt |               Space                 | RAlt | MO 1 |   | Left  | Dwn | Rght |
      * `-------------------------------------------------------------------------┘   └--------------------´
      */
-  
-  
     [_BASE] = LAYOUT_65_ansi_blocker(
         QK_GESC,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,  KC_HOME,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLASH,KC_PGUP,
@@ -49,13 +54,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
         KC_LCTL,  KC_LGUI,  KC_LALT,                                KC_SPC,                       KC_RALT,  MO(1),              KC_LEFT,  KC_DOWN,  KC_RIGHT
     ),
+
+
     /* Settings layer
      * ,--------------------------------------------------------------------------------------------------.
      * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     | PScr |
      * |-------------------------------------------------------------------------------------------+------|
-     * | R Tog  | M + | V + | H + | S + |     |     |     |     |     |     | TG2 |     |          | Ins  |
+     * |        |     |     |     |     |     |     |     |     |     |     | TG2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     | M - | V - | H - | S - |     |     |     |     |     |     |     |              | Play |
+     * | Caps     |     | RM0 | RM1 | RM2 |     |     |     |     |     |     |     |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
      * |     VV     |     |     |     |     | RST | EEP |     |     |     |     |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
@@ -64,8 +71,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
-        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SPI,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SPD,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
+        RGB_TOG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG(2),    XXXXXXX,  XXXXXXX,  KC_INS,
+        KC_CAPS,  XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
@@ -124,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │   │   │
  * ├ ─ ┼ ─ ┤
  * │   │   │
- * └	─ ┴ ─	┘
+ * └ ─ ┴ ─ ┘
  */
 
 __attribute__ ((weak)) void keyboard_post_init_keymap(void) {}
@@ -138,14 +145,61 @@ void keyboard_post_init_user(void) {
 }
 
 #ifdef RGB_MATRIX_ENABLE
+    static uint8_t lighting_mode = 0;
+    
+    uint8_t get_lighting_mode(void) {
+      return lighting_mode;
+    }
+
+    void colorize_keycaps(void) {
+      for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_YELLOW); i++) {
+            rgb_matrix_set_color(LED_LIST_MILKSHAKE_YELLOW[i], RGB_MILKSHAKE_YELLOW);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_RED); i++) {
+            rgb_matrix_set_color(LED_LIST_MILKSHAKE_RED[i], RGB_MILKSHAKE_RED);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_GREEN); i++) {
+            rgb_matrix_set_color(LED_LIST_MILKSHAKE_GREEN[i], RGB_MILKSHAKE_GREEN);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_BLUE); i++) {
+            rgb_matrix_set_color(LED_LIST_MILKSHAKE_BLUE[i], RGB_MILKSHAKE_BLUE);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_PURPLE); i++) {
+            rgb_matrix_set_color(LED_LIST_MILKSHAKE_PURPLE[i], RGB_MILKSHAKE_PURPLE);
+        }
+    }
+
     void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-        rgb_matrix_set_color_all(RGB_WHITE);
+        // rgb_matrix_set_color_all(RGB_WHITE);
+        rgb_matrix_set_color_all(RGB_OFF);
+
+        
+
         
         switch(get_highest_layer(layer_state)){ 
         case _BASE:
+            switch(get_lighting_mode()) {
+                case 0:
+                    rgb_matrix_set_color_all(RGB_WHITE);
+                    colorize_keycaps();
+                    break;
+                case 1:
+                    colorize_keycaps();
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
             break;
         case _SETTINGS: 
             rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
+            
+            for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
+                rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
+            }
+            rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], RGB_MILKSHAKE_RED);
+            
             break;
         case _KEYPAD:
             for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
@@ -165,21 +219,42 @@ void keyboard_post_init_user(void) {
         default:
             break;
         }
-
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_YELLOW); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_YELLOW[i], RGB_MILKSHAKE_YELLOW);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_RED); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_RED[i], RGB_MILKSHAKE_RED);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_GREEN); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_GREEN[i], RGB_MILKSHAKE_GREEN);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_BLUE); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_BLUE[i], RGB_MILKSHAKE_BLUE);
-        }
-        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_MILKSHAKE_PURPLE); i++) {
-            rgb_matrix_set_color(LED_LIST_MILKSHAKE_PURPLE[i], RGB_MILKSHAKE_PURPLE);
-        }
-    }
+        // colorize_keycaps();   
+    }    
 #endif
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) { 
+    switch (keycode) {
+        case RGB_M_0:
+            if (record->event.pressed) {
+                // register_code(keycode);
+                lighting_mode = 0;
+            } else {
+                // unregister_code(keycode);
+            }
+            return false;
+            break;
+        case RGB_M_1:
+            if (record->event.pressed) {
+                // register_code(keycode);
+                lighting_mode = 1;
+            } else {
+                // unregister_code(keycode);
+            }
+            return false;
+            break;
+        case RGB_M_2:
+            if (record->event.pressed) {
+                // register_code(keycode);
+                lighting_mode = 2;
+            } else {
+                // unregister_code(keycode);
+            }
+            return false;
+            break;
+        default:
+            break;
+    }
+    return true;
+}
