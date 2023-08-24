@@ -170,49 +170,84 @@ void keyboard_post_init_user(void) {
         }
     }
 
+    void colorize_settings(void) {
+        rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
+            rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
+        }
+        rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], RGB_MILKSHAKE_RED);
+    }
+
+    void colorize_numpad(void) {
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
+            if (IS_HOST_LED_ON(USB_LED_NUM_LOCK) == true) {
+                rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_BLUE);
+            } else {
+                rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_RED);
+            }
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
+            rgb_matrix_set_color(LED_LIST_KEYPAD_EXTRA[i], RGB_MILKSHAKE_PURPLE);
+        }
+        rgb_matrix_set_color(LED_ESC, RGB_MILKSHAKE_RED);
+    }
+
     void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         switch(get_highest_layer(layer_state)){ 
         case _BASE:
             switch(get_lighting_mode()) {
-                case 0:
-                    rgb_matrix_set_color_all(RGB_WHITE);
-                    colorize_keycaps();
-                    break;
-                case 1:
-                    rgb_matrix_set_color_all(RGB_OFF);
-                    colorize_keycaps();
-                    break;
-                case 2:
-                    rgb_matrix_set_color_all(RGB_OFF);
-                    break;
-                default:
-                    break;
+            case 0:
+                rgb_matrix_set_color_all(RGB_WHITE);
+                colorize_keycaps();
+                break;
+            case 1:
+                rgb_matrix_set_color_all(RGB_OFF);
+                colorize_keycaps();
+                break;
+            case 2:
+                rgb_matrix_set_color_all(RGB_OFF);
+                break;
+            default:
+                break;
             }
             break;
         case _SETTINGS: 
-            rgb_matrix_set_color_all(RGB_OFF);
-            
-            rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
-            for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
-                rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
+            switch(get_lighting_mode()) {
+            case 0:
+                rgb_matrix_set_color_all(RGB_WHITE);
+                colorize_keycaps();
+                colorize_settings();
+                break;
+            case 1:
+                rgb_matrix_set_color_all(RGB_OFF);
+                colorize_keycaps();
+                colorize_settings();
+                break;
+            case 2:
+                rgb_matrix_set_color_all(RGB_OFF);
+                break;
+            default:
+                break;
             }
-            rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[get_lighting_mode()], RGB_MILKSHAKE_RED);
-            
             break;
         case _KEYPAD:
-            rgb_matrix_set_color_all(RGB_OFF);
-            for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
-                if (IS_HOST_LED_ON(USB_LED_NUM_LOCK) == true) {
-                    rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_BLUE);
-                } else {
-                    rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_RED);
-                }
+            switch(get_lighting_mode()) {
+            case 0:
+                rgb_matrix_set_color_all(RGB_WHITE);
+                colorize_keycaps();
+                colorize_numpad();
+                break;
+            case 1:
+                rgb_matrix_set_color_all(RGB_OFF);
+                colorize_keycaps();
+                colorize_numpad();
+                break;
+            case 2:
+                rgb_matrix_set_color_all(RGB_OFF);
+                break;
+            default:
+                break;
             }
-            for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
-                rgb_matrix_set_color(LED_LIST_KEYPAD_EXTRA[i], RGB_MILKSHAKE_PURPLE);
-            }
-            rgb_matrix_set_color(LED_ESC, RGB_MILKSHAKE_RED);
-            rgb_matrix_set_color(LED_CAPS, RGB_MILKSHAKE_RED);
             break;
         default:
             break;

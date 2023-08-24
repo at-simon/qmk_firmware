@@ -158,6 +158,9 @@
 #define ARRAYSIZE(arr)  sizeof(arr)/sizeof(arr[0])
 
 void colorize_keycaps(void);
+void colorize_settings(void);
+void colorize_numpad(void);
+
 uint8_t get_lighting_mode(void);
 
 // void activate_numlock(bool turn_on);
