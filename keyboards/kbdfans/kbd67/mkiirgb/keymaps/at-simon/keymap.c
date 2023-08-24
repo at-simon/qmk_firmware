@@ -274,10 +274,10 @@ void colorize_os_indicators(void) {
         rgb_matrix_set_color_hsv(LED_9, HSV_WHITE);
         rgb_matrix_set_color_hsv(LED_0, HSV_WHITE);
     } else {
-        rgb_matrix_set_color_hsv(LED_7, HSV_MILKSHAKE_RED);
-        rgb_matrix_set_color_hsv(LED_8, HSV_MILKSHAKE_RED);
-        rgb_matrix_set_color_hsv(LED_9, HSV_MILKSHAKE_RED);
-        rgb_matrix_set_color_hsv(LED_0, HSV_MILKSHAKE_RED);
+        rgb_matrix_set_color_hsv(LED_7, HSV_MILKSHAKE_BLUE);
+        rgb_matrix_set_color_hsv(LED_8, HSV_MILKSHAKE_BLUE);
+        rgb_matrix_set_color_hsv(LED_9, HSV_MILKSHAKE_BLUE);
+        rgb_matrix_set_color_hsv(LED_0, HSV_MILKSHAKE_BLUE);
     }
 }
 // ----------------------------------------------------------------------------
@@ -439,13 +439,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case DESK_ML:
             if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_DOWN(X_LEFT_GUI) SS_TAP(X_LEFT) SS_UP(X_LEFT_GUI) SS_UP(X_LEFT_CTRL)); // Win + Ctrl + Left
+                if (mac_enabled) {
+                    SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_TAP(X_LEFT) SS_UP(X_LEFT_CTRL)); // Ctrl + Left
+                } else {
+                    SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_DOWN(X_LEFT_GUI) SS_TAP(X_LEFT) SS_UP(X_LEFT_GUI) SS_UP(X_LEFT_CTRL)); // Win + Ctrl + Left
+                }
             }
             return false;
             break;
         case DESK_MR:
             if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_DOWN(X_LEFT_GUI) SS_TAP(X_RIGHT) SS_UP(X_LEFT_GUI) SS_UP(X_LEFT_CTRL)); // Win + Ctrl + Right
+                if (mac_enabled) {
+                    SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_TAP(X_RIGHT) SS_UP(X_LEFT_CTRL)); // Ctrl + Right
+                } else {
+                    SEND_STRING(SS_DOWN(X_LEFT_CTRL) SS_DOWN(X_LEFT_GUI) SS_TAP(X_RIGHT) SS_UP(X_LEFT_GUI) SS_UP(X_LEFT_CTRL)); // Win + Ctrl + Right
+                }
             }
             return false;
             break;
