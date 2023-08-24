@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,--------------------------------------------------------------------------------------------------.
      * |  `  |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |     Del     | PScr |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     |     |     |     |     |     |     |     |     |     | DF2 |     |          | Ins  |
+     * |        |     |     |     |     |     |     |     |     |     |     | TO2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
      * | Caps     |     |     |     |     |     |     |     |     |     |     |     |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG(2),    XXXXXXX,  XXXXXXX,  KC_INS,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
         KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
@@ -80,20 +80,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
     /* Keypad layer
      * ,--------------------------------------------------------------------------------------------------.
-     * | DF0 |     |     |     |     |     |     |  7  |  8  |  9  |     |  -  |  +  |  Backspace  | Home |
+     * | TO0 |     |     |     |     |     |     |  7  |  8  |  9  |     |  -  |  +  |  Backspace  | Home |
      * |-------------------------------------------------------------------------------------------+------|
-     * |        |     |     |     |     |     |     |  4  |  5  |  6  |     |  *  |  /  |          |      |
+     * | Tab    |     |     |     |     |     |     |  4  |  5  |  6  |     |  *  |  /  |          |      |
      * |-------------------------------------------------------------------------------------------+------|
      * |          |     |     |     | NmL |     |     |  1  |  2  |  3  |     |     |    Enter     |      |
      * |-------------------------------------------------------------------------------------------+------|
-     * |            |     |     |     |     |     |     |  0  |  ,  |  .  |  /  |            | Up  | End  |
+     * | Shift      |     |  X  |  C  |  V  |     |     |  0  |  ,  |  .  |  /  |            | Up  | End  |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
-     * |       |      |      |                                     |      |      |   | Left  | Dwn | Rght |
+     * | LCtrl |      | LAlt |                                     |      |      |   | Left  | Dwn | Rght |
      * `-------------------------------------------------------------------------´   `--------------------´
      */
     //  TODO update keypad layer -> numpad and add xcv and control keys to image
     [_KEYPAD] = LAYOUT_65_ansi_blocker(
-        TG(2),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
+        TO(0),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
         KC_TAB,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    XXXXXXX,  KC_PAST,  KC_PSLS,  XXXXXXX,  KC_PGUP,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_NUM,   XXXXXXX,  XXXXXXX,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,  XXXXXXX,            KC_ENT,   KC_PGDN,
         KC_LSFT,  XXXXXXX,  KC_X,     KC_C,     KC_V,     XXXXXXX,  XXXXXXX,  KC_P0,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
