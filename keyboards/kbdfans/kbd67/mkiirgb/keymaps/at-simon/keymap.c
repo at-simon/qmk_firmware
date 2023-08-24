@@ -30,6 +30,7 @@ enum custom_user_keycodes {
     SPEED_I,
     SPEED_D,
     RAINBOW,
+    W_LOCK,
     A_GREET,
     A_MAIL,
     K_GREET,
@@ -74,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * |        |     |     |     |     |     |     |     |     | TO3 |     | TO2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     | A_M | K_M | K2M |     |     |     | S - | S + | Br- | Br+ |              | Play |
+     * | Caps     |     | A_M | K_M | K2M |     |     |     |     | W L | Br- | Br+ |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
      * |     VV     |     |     |     | A_G | K_G |     | RBW | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
@@ -84,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(3),    XXXXXXX,  TO(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  A_MAIL,   K_MAIL,   K2_MAIL,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPEED_D,  SPEED_I,  BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
+        KC_CAPS,  XXXXXXX,  A_MAIL,   K_MAIL,   K2_MAIL,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  W_LOCK,   BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  A_GREET,  K_GREET,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
@@ -347,6 +348,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SPEED_D:
             if (record->event.pressed) {
                 rgb_matrix_decrease_speed_noeeprom();
+            }
+            return false;
+            break;
+        case W_LOCK:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI("l"));
             }
             return false;
             break;
