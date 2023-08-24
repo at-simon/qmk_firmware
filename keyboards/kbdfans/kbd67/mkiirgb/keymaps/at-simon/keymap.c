@@ -363,7 +363,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case K_GREET:
             if (record->event.pressed) {
-                SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon);
+                SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon"); // TODO
             }
             return false;
             break;
