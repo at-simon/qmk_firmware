@@ -62,9 +62,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * |        |     |     |     |     |     |     |     |     |     |     | TG2 |     |          | Ins  |
      * |-------------------------------------------------------------------------------------------+------|
-     * | Caps     |     | RM0 | RM1 | RM2 |     |     |     |     |     |     |     |              | Play |
+     * | Caps     |     |     |     |     |     |     |     |     |     |     |     |              | Play |
      * |-------------------------------------------------------------------------------------------+------|
-     * |     VV     |     |     |     |     | RST | EEP |     |     |     |     |     VV     | V + | Mute |
+     * |     VV     |     |     |     |     | RST | EEP |     | RM0 | RM1 | RM2 |     VV     | V + | Mute |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
      * |   VV  |  VV  |  VV  |                                     |  VV  |  VV  |   | Prev  | V - | Next |
      * `-------------------------------------------------------------------------┘   └--------------------´
@@ -72,15 +72,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   KC_PSCR,
         RGB_TOG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG(2),    XXXXXXX,  XXXXXXX,  KC_INS,
-        KC_CAPS,  XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
-        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,            KC_VOLU,  KC_MUTE,
+        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  KC_MPLY,
+        _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,  EE_CLR,   XXXXXXX,  RGB_M_0,  RGB_M_1,  RGB_M_2,  _______,            KC_VOLU,  KC_MUTE,
         _______,  _______,  _______,                                XXXXXXX,                      _______,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
   
   
     /* Keypad layer
      * ,--------------------------------------------------------------------------------------------------.
-     * |     | TG2 | TG2 | TG2 |     |     |     |  7  |  8  |  9  |     |  -  |  +  |  Backspace  | Home |
+     * | TG2 |     |     |     |     |     |     |  7  |  8  |  9  |     |  -  |  +  |  Backspace  | Home |
      * |-------------------------------------------------------------------------------------------+------|
      * |        |     |     |     |     |     |     |  4  |  5  |  6  |     |  *  |  /  |          |      |
      * |-------------------------------------------------------------------------------------------+------|
@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     //  TODO update keypad layer -> numpad and add xcv and control keys to image
     [_KEYPAD] = LAYOUT_65_ansi_blocker(
-        XXXXXXX,  TG(2),    TG(2),    TG(2),    XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
+        TG(2),    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  KC_PMNS,  KC_PPLS,  KC_BSPC,  KC_HOME,
         KC_TAB,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    XXXXXXX,  KC_PAST,  KC_PSLS,  XXXXXXX,  KC_PGUP,
         _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_NUM,   XXXXXXX,  XXXXXXX,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,  XXXXXXX,            KC_ENT,   KC_PGDN,
         KC_LSFT,  XXXXXXX,  KC_X,     KC_C,     KC_V,     XXXXXXX,  XXXXXXX,  KC_P0,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
@@ -171,12 +171,6 @@ void keyboard_post_init_user(void) {
     }
 
     void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-        // rgb_matrix_set_color_all(RGB_WHITE);
-        rgb_matrix_set_color_all(RGB_OFF);
-
-        
-
-        
         switch(get_highest_layer(layer_state)){ 
         case _BASE:
             switch(get_lighting_mode()) {
@@ -185,17 +179,20 @@ void keyboard_post_init_user(void) {
                     colorize_keycaps();
                     break;
                 case 1:
+                    rgb_matrix_set_color_all(RGB_OFF);
                     colorize_keycaps();
                     break;
                 case 2:
+                    rgb_matrix_set_color_all(RGB_OFF);
                     break;
                 default:
                     break;
             }
             break;
         case _SETTINGS: 
-            rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
+            rgb_matrix_set_color_all(RGB_OFF);
             
+            rgb_matrix_set_color(LED_LBRC, RGB_MILKSHAKE_RED);
             for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LIGHTNIG_MODE); i++) {
                 rgb_matrix_set_color(LED_LIST_LIGHTNIG_MODE[i], RGB_MILKSHAKE_YELLOW);
             }
@@ -203,6 +200,7 @@ void keyboard_post_init_user(void) {
             
             break;
         case _KEYPAD:
+            rgb_matrix_set_color_all(RGB_OFF);
             for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD); i++) {
                 if (IS_HOST_LED_ON(USB_LED_NUM_LOCK) == true) {
                     rgb_matrix_set_color(LED_LIST_KEYPAD[i], RGB_MILKSHAKE_BLUE);
@@ -213,14 +211,12 @@ void keyboard_post_init_user(void) {
             for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_KEYPAD_EXTRA); i++) {
                 rgb_matrix_set_color(LED_LIST_KEYPAD_EXTRA[i], RGB_MILKSHAKE_PURPLE);
             }
-            rgb_matrix_set_color(LED_1, RGB_MILKSHAKE_RED);
-            rgb_matrix_set_color(LED_2, RGB_MILKSHAKE_RED);
-            rgb_matrix_set_color(LED_3, RGB_MILKSHAKE_RED);
+            rgb_matrix_set_color(LED_ESC, RGB_MILKSHAKE_RED);
+            rgb_matrix_set_color(LED_CAPS, RGB_MILKSHAKE_RED);
             break;
         default:
             break;
         }
-        // colorize_keycaps();   
     }    
 #endif
 
@@ -229,28 +225,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case RGB_M_0:
             if (record->event.pressed) {
-                // register_code(keycode);
                 lighting_mode = 0;
-            } else {
-                // unregister_code(keycode);
             }
             return false;
             break;
         case RGB_M_1:
             if (record->event.pressed) {
-                // register_code(keycode);
                 lighting_mode = 1;
-            } else {
-                // unregister_code(keycode);
             }
             return false;
             break;
         case RGB_M_2:
             if (record->event.pressed) {
-                // register_code(keycode);
                 lighting_mode = 2;
-            } else {
-                // unregister_code(keycode);
             }
             return false;
             break;
