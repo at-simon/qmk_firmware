@@ -423,7 +423,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case W_LOCK:
             if (record->event.pressed) {
-                SEND_STRING(SS_LGUI("l"));
+                if (mac_enabled) {
+                    SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_LCMD) SS_TAP(X_Q) SS_UP(X_LCMD) SS_UP(X_LCTRL));
+                } else {
+                    SEND_STRING(SS_LGUI("l"));
+                }
             }
             return false;
             break;
