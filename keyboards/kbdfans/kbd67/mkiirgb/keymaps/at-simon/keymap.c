@@ -154,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* Reset and EEPROM clear layer
      * ,--------------------------------------------------------------------------------------------------.
-     * | Rtn |     | KC_O| Mac | Win |     |     |     |     |     |     |     |     |             |  RST |
+     * | Rtn | Win | Mac |     |     |     |     |     |     |     |     |     |     |             |  RST |
      * |-------------------------------------------------------------------------------------------+------|
      * |        |     |     |     |     |     |     |     |     |     |     |     |     |          |  EEP |
      * |-------------------------------------------------------------------------------------------+------|
@@ -166,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_RESET] = LAYOUT_65_ansi_blocker(
-        TG_RST,   XXXXXXX,  KC_O,     MAC_ON,   WIN_ON,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,
+        TG_RST,   WIN_ON,   MAC_ON,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  EE_CLR,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  XXXXXXX,
@@ -270,15 +270,22 @@ void colorize_numpad(void) {
 
 void colorize_os_indicators(void) {
     if (mac_enabled) {
-        rgb_matrix_set_color_hsv(LED_7, HSV_WHITE);
-        rgb_matrix_set_color_hsv(LED_8, HSV_WHITE);
-        rgb_matrix_set_color_hsv(LED_9, HSV_WHITE);
-        rgb_matrix_set_color_hsv(LED_0, HSV_WHITE);
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LOGO_APPLE); i++) {
+            rgb_matrix_set_color_hsv(LED_LIST_LOGO_APPLE[i], HSV_WHITE);
+        }
     } else {
-        rgb_matrix_set_color_hsv(LED_7, HSV_MILKSHAKE_BLUE);
-        rgb_matrix_set_color_hsv(LED_8, HSV_MILKSHAKE_BLUE);
-        rgb_matrix_set_color_hsv(LED_9, HSV_MILKSHAKE_BLUE);
-        rgb_matrix_set_color_hsv(LED_0, HSV_MILKSHAKE_BLUE);
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LOGO_WINDOWS_RED); i++) {
+            rgb_matrix_set_color_hsv(LED_LIST_LOGO_WINDOWS_RED[i], HSV_MILKSHAKE_RED);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LOGO_WINDOWS_GREEN); i++) {
+            rgb_matrix_set_color_hsv(LED_LIST_LOGO_WINDOWS_GREEN[i], HSV_MILKSHAKE_GREEN);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LOGO_WINDOWS_BLUE); i++) {
+            rgb_matrix_set_color_hsv(LED_LIST_LOGO_WINDOWS_BLUE[i], HSV_MILKSHAKE_BLUE);
+        }
+        for (uint8_t i=0; i<ARRAYSIZE(LED_LIST_LOGO_WINDOWS_YELLOW); i++) {
+            rgb_matrix_set_color_hsv(LED_LIST_LOGO_WINDOWS_YELLOW[i], HSV_MILKSHAKE_YELLOW);
+        }
     }
 }
 // ----------------------------------------------------------------------------
@@ -347,8 +354,8 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_matrix_set_color_hsv(LED_ESC, HSV_MILKSHAKE_GREEN);
         rgb_matrix_set_color_hsv(LED_DEL, HSV_MILKSHAKE_RED);
         rgb_matrix_set_color_hsv(LED_PGUP, HSV_MILKSHAKE_GREEN);
-        rgb_matrix_set_color_hsv(LED_3, HSV_WHITE);
-        rgb_matrix_set_color_hsv(LED_4, HSV_MILKSHAKE_BLUE);
+        rgb_matrix_set_color_hsv(LED_1, HSV_MILKSHAKE_BLUE);
+        rgb_matrix_set_color_hsv(LED_2, HSV_WHITE);
 
         colorize_os_indicators();
         break;

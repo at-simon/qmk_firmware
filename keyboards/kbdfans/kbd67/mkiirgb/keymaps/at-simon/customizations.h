@@ -156,6 +156,33 @@ const uint8_t LED_LIST_LIGHTNIG_MODE[] = {
     LED_COMM, LED_DOT, LED_SLSH, LED_M,
 };
 
+const uint8_t LED_LIST_LOGO_APPLE[] = {
+            LED_8,
+    LED_U, LED_I, LED_O,
+    LED_J, LED_K,
+    LED_M, LED_COMM, LED_DOT,
+};
+
+const uint8_t LED_LIST_LOGO_WINDOWS_RED[] = {
+    LED_4, LED_5, 
+    LED_E, LED_R, 
+};
+
+const uint8_t LED_LIST_LOGO_WINDOWS_GREEN[] = {
+    LED_6, LED_7, 
+    LED_T, LED_Y, 
+};
+
+const uint8_t LED_LIST_LOGO_WINDOWS_BLUE[] = {
+    LED_S, LED_D, 
+    LED_Z, LED_X, 
+};
+
+const uint8_t LED_LIST_LOGO_WINDOWS_YELLOW[] = {
+    LED_F, LED_G, 
+    LED_C, LED_V, 
+};
+
 #define ARRAYSIZE(arr)  sizeof(arr)/sizeof(arr[0])
 
 #ifdef RGB_MATRIX_ENABLE
