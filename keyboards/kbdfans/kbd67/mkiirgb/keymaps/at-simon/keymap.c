@@ -19,6 +19,7 @@
 #include QMK_KEYBOARD_H
 #include "customizations.h"
 #include "sendstring_us_international.h"
+#include "secret_definitions.h"
 
 // Custom Keycodes
 enum custom_user_keycodes {
@@ -421,19 +422,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case A_GREET:
             if (record->event.pressed) {
-                SEND_STRING("Viele Gr" SS_RALT("y") SS_RALT("s") "e\nSimon");
+                if(mac_enabled) {
+                    SEND_STRING("Viele Gr" SS_DOWN(X_LALT) SS_TAP(X_U) SS_UP(X_LALT) SS_TAP(X_U) SS_RALT("s") "e\nSimon");
+                } else {
+                    SEND_STRING("Viele Gr" SS_RALT("y") SS_RALT("s") "e\nSimon");
+                }
             }
             return false;
             break;
         case K_GREET:
             if (record->event.pressed) {
-                SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon"); // <TODO>
+                if (mac_enabled) {
+                    SEND_STRING("Mit freundlichen Gr" SS_DOWN(X_LALT) SS_TAP(X_U) SS_UP(X_LALT) SS_TAP(X_U) SS_RALT("s") "en\nSimon ");
+                } else {
+                    SEND_STRING("Mit freundlichen Gr" SS_RALT("y") SS_RALT("s") "en\nSimon ");
+                }
+                SEND_STRING(LAST_NAME);
             }
             return false;
             break;
         case A_MAIL:
             if (record->event.pressed) {
-                send_string("MAIL"); // <TODO>
+                send_string(MAIL);
             }
             return false;
             break;
