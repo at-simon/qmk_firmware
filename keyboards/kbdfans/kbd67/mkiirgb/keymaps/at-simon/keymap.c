@@ -31,7 +31,7 @@ enum custom_user_keycodes {
     SPEED_I,
     SPEED_D,
     RAINBOW,
-    W_LOCK,
+    LOCK_SCR,
     A_GREET,
     A_MAIL,
     K_GREET,
@@ -51,8 +51,6 @@ enum custom_user_layers {
     // _NUMPAD,
 
 // Interact with layers
-// #define DF_MAC DF(_B_MAC)
-// #define DF_WIN DF(_B_WIN)
 #define MO_SET MO(_SETTINGS)
 #define TG_RST TG(_RESET)
 
@@ -73,8 +71,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |-------------------------------------------------------------------------------------------+------|
      * | Shift      |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  |   Shift    | Up  | End  |
      * |-------------------------------------------------------------------------┬---┬-------------+------|
-     * | Lctrl | Lopt | Lcmd |               Space                 | Ropt | Set  |   | Left  | Dwn | Rght |   | Intendet by Apple
-     * | Lopt | Lctrl | Lcmd |               Space                 | Ropt | Set  |   | Left  | Dwn | Rght |   | My Choice
+     * | Lctrl | Lopt | Lcmd |               Space                 | Ropt | Set  |   | Left  | Dwn | Rght |   | Apple
+     * | Lopt | Lctrl | Lcmd |               Space                 | Ropt | Set  |   | Left  | Dwn | Rght |   | at-simon
      * `-------------------------------------------------------------------------´   `--------------------´
      */
     [_B_MAC] = LAYOUT_65_ansi_blocker(
@@ -82,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLASH,KC_PGUP,
         XXXXXXX,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_ENT,   KC_PGDN,
         KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
-        KC_LOPT,  KC_LCTL,  KC_LCMD,                                KC_SPC,                       KC_ROPT,  MO_SET,             KC_LEFT,  KC_DOWN,  KC_RIGHT // KC_SPC
+        KC_LOPT,  KC_LCTL,  KC_LCMD,                                KC_SPC,                       KC_ROPT,  MO_SET,             KC_LEFT,  KC_DOWN,  KC_RIGHT
     ),
  
 
@@ -104,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLASH,KC_PGUP,
         XXXXXXX,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_ENT,   KC_PGDN,
         KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
-        KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                       KC_RALT,  MO_SET,             KC_LEFT,  KC_DOWN,  KC_RIGHT // KC_SPC
+        KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                       KC_RALT,  MO_SET,             KC_LEFT,  KC_DOWN,  KC_RIGHT
     ),
 
 
@@ -124,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SETTINGS] = LAYOUT_65_ansi_blocker(
         KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,   XXXXXXX,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  TG_RST,   XXXXXXX,  DESK_ML,  DESK_MR,  XXXXXXX,  XXXXXXX,
-        KC_CAPS,  XXXXXXX,  A_MAIL,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  W_LOCK,   BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
+        KC_CAPS,  XXXXXXX,  A_MAIL,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  LOCK_SCR, BRGHT_D,  BRGHT_I,            XXXXXXX,  KC_MPLY,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  A_GREET,  K_GREET,  XXXXXXX,  RAINBOW,  RGB_M_0,  RGB_M_1,  RGB_M_2,  XXXXXXX,            KC_VOLU,  KC_MUTE,
         XXXXXXX,  XXXXXXX,  XXXXXXX,                                XXXXXXX,                      XXXXXXX,  _______,            KC_MPRV,  KC_VOLD,  KC_MNXT
     ),
@@ -390,6 +388,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case RAINBOW:
+            if (record->event.pressed) {
+                lighting_mode = 3;
+                rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
+            }
+            return false;
+            break;
         case BRGHT_I:
             if (record->event.pressed) {
                 hsv_val = (hsv_val >= 238) ? 255 : hsv_val + 17;
@@ -399,13 +404,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case BRGHT_D:
             if (record->event.pressed) {
                 hsv_val = (hsv_val <= 34) ? 17 : hsv_val - 17;
-            }
-            return false;
-            break;
-        case RAINBOW:
-            if (record->event.pressed) {
-                lighting_mode = 3;
-                rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
             }
             return false;
             break;
@@ -421,7 +419,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
-        case W_LOCK:
+        case LOCK_SCR:
             if (record->event.pressed) {
                 if (mac_enabled) {
                     SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_LCMD) SS_TAP(X_Q) SS_UP(X_LCMD) SS_UP(X_LCTRL));
