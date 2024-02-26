@@ -4,9 +4,9 @@
     "editor.insertSpaces": true,
     // Configure glob patterns for excluding files and folders.
     "files.exclude": {
-        "**/.build": false,
-        "**/*.hex": false,
-        "**/*.bin": false
+        "**/.build": true,
+        "**/*.hex": true,
+        "**/*.bin": true
     },
     "files.associations": {
         "*.h": "c",
