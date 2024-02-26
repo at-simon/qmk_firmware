@@ -1,5 +1,6 @@
 VIA_ENABLE = yes
 LTO_ENABLE = yes
 BACKLIGHT_ENABLE = no
+SEND_STRING_ENABLE = yes
 
 LAYOUTS = numpad_6x4
